@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import style from './Reset.module.css';
 
@@ -14,4 +15,4 @@ class Reset extends React.Component {
 
 }
 
-export default Reset;
+export default Reset;*/

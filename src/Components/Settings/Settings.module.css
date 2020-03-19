@@ -1,0 +1,11 @@
+.Wrap {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.error {
+    border-color: red;
+    background-color: red;
+}

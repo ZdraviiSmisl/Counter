@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import style from './Increment.module.css';
 
@@ -17,4 +18,4 @@ class Increment extends React.Component {
 
 }
 
-export default Increment;
+export default Increment;*/
