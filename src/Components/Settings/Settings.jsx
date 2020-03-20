@@ -13,6 +13,7 @@ onSetMaxValue = (e) => {
     debugger
     let valueMax = e.currentTarget.value;
     this.props.setMaxValue(valueMax);
+
 };
 onSetStartValue = (e) => {
     let valueStart = e.currentTarget.value;

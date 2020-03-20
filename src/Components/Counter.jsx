@@ -15,9 +15,9 @@ class Counter extends React.Component {
         maxValue: 0,
         outputValue: 0,
         startValueStorage: 0,
-        maxValueStorage: 0
-        /*errorStart: false,
-        errorMax: false*/
+        maxValueStorage: 0,
+        errorStart: false,
+        errorMax: false
 
         /* Buttons = {"set":{title: 'set',statusButtonSet:true},
         'inc':{ title: 'inc',statusButton:false},
@@ -30,7 +30,9 @@ class Counter extends React.Component {
         this.restoreState();
     }
 
+    checkValue = () => {
 
+    };
     saveState = () => {
         let stateToString = JSON.stringify(this.state);
         localStorage.setItem('defaultState', stateToString);
@@ -45,7 +47,9 @@ class Counter extends React.Component {
             startValue: 0,
             maxValue: 0,
             startValueStorage: 0,
-            maxValueStorage: 0
+            maxValueStorage: 0,
+            errorStart: false,
+            errorMax: false
         };
         let stateToString = localStorage.getItem('defaultState');
         if (stateToString !== null) {
@@ -92,23 +96,31 @@ class Counter extends React.Component {
                 },
                 () => {
                     this.saveState();
-                    if (this.state.startValueStorage === this.state.maxValueStorage) {
-                        this.setState({
-                            outputValue: this.state.startValueStorage
 
-
-                        })
-                    }
 
                 })
-        } else {
+        }
+        if (this.state.startValueStorage === this.state.maxValueStorage) {
             this.setState({
-                    incrDisable: true,
+                incrDisable: true,
+                outputValue: this.state.startValueStorage
+
+
+            }, () => {
+                this.saveState();
+
+
+            })
+        }
+
+        /*else {
+            this.setState({
+
                     outputValue: this.state.startValueStorage,
-                /*    startValueStorage: this.state.startValue*/
+                    /!*    startValueStorage: this.state.startValue*!/
                 },
                 () => this.saveState())
-        }
+        }*/
     };
     resetCounter = () => {
         this.setState({
@@ -136,6 +148,7 @@ class Counter extends React.Component {
                 <Settings startValue={this.state.startValue}
                           maxValue={this.state.maxValue}
                           setValue={this.setValue}
+                          checkValue={this.checkValue}
                           setMaxValue={this.setMaxValue}
                           setStartValue={this.setStartValue}
                           errorStart={this.state.errorStart} errorMax={this.state.errorMax}
