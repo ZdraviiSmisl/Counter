@@ -1,17 +1,18 @@
 import React from 'react';
 import style from './Button.module.css'
+import Display from "../../../Display/Display";
 
 class Button extends React.Component {
-state={
-error:false
-}
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
 
-            <button className={this.state.error ? style.error : ''}
-
-                    onClick={this.props.onBtnClick} disabled={this.props.disabled}>{this.props.name}</button>
+            <button className={this.props.errorButton ? style.error : ''}
+                    onClick={this.props.onBtnClick} disabled={this.props.disabled}>
+                    {this.props.name} </button>
 
         )
     }

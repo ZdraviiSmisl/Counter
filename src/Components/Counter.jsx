@@ -10,15 +10,13 @@ class Counter extends React.Component {
     state = {
         resetDisable: true,
         incrDisable: true,
-        setDisable: true,
+        setDisable: false,
         startValue: 0,
         maxValue: 0,
         outputValue: 0,
-        startValueStorage: 0,
-        maxValueStorage: 0,
         errorStart: false,
-        errorMax: false
-
+        errorMax: false,
+        errorButton: false
         /* Buttons = {"set":{title: 'set',statusButtonSet:true},
         'inc':{ title: 'inc',statusButton:false},
       'res':{ title: 'res',statusButton:false}}*/
@@ -27,18 +25,16 @@ class Counter extends React.Component {
 
 
     componentDidMount() {
-        this.restoreState();
+        /*  this.restoreState();*/
     }
 
-    checkValue = () => {
 
-    };
     saveState = () => {
         let stateToString = JSON.stringify(this.state);
         localStorage.setItem('defaultState', stateToString);
     };
 
-    restoreState = () => {
+    /*restoreState = () => {
         let state = {
             resetDisable: true,
             incrDisable: true,
@@ -57,30 +53,77 @@ class Counter extends React.Component {
 
         }
         this.setState(state);
+    };*!/*/
+
+    checkStartValue = () => {
+        if (this.state.startValue === this.state.maxValue || this.state.startValue < 0||this.state.startValue > this.state.maxValue) {
+            this.setState({
+                    outputValue: 'Incorrect value',
+                    resetDisable: true,
+                    incrDisable: true,
+                    setDisable: true,
+                    errorMax: true,
+                    errorButton: true,
+                errorStart: true
+
+                }
+            )
+        } else {
+            this.setState({
+                outputValue: 'input value and press "set"',
+                errorMax: false,
+                errorStart: false,
+                errorButton: false,
+                setDisable: false
+            })
+        }
     };
+
+
+    checkMaxValue = () => {
+        if (this.state.startValue === this.state.maxValue || this.state.maxValue < 0||this.state.startValue > this.state.maxValue) {
+            this.setState({
+                    outputValue: 'Incorrect value',
+                    resetDisable: true,
+                    incrDisable: true,
+                    setDisable: true,
+                errorStart: true,
+                    errorMax: true,
+                    errorButton: true
+                }
+            )
+        } else {
+            this.setState({
+                outputValue: 'input value and press "set"',
+                errorMax: false,
+                errorStart: false,
+                errorButton: false,
+                setDisable: false
+            })
+        }
+    }
 
 
     setMaxValue = (valueMax) => {
         this.setState({
             maxValue: valueMax,
-            outputValue: 'input value and press "set"',
-            setDisable: false
-        }, () => this.saveState())
+
+
+        }, () => this.checkMaxValue(this.state.maxValue))
     };
 
     setStartValue = (valueStart) => {
+        debugger
         this.setState({
             startValue: valueStart,
             outputValue: 'input value and press "set"',
             setDisable: false
-        }, () => this.saveState())
+        }, () => this.checkStartValue(this.state.startValue))
     };
 
     setValue = () => {
         this.setState({
-            startValueStorage: this.state.startValue,
-            maxValueStorage: this.state.maxValue,
-            outputValue: this.state.startValueStorage,
+            outputValue: this.state.startValue,
             setDisable: true,
             resetDisable: false,
             incrDisable: false
@@ -88,44 +131,22 @@ class Counter extends React.Component {
     };
 
     incrementCounter = () => {
-        if (this.state.startValueStorage < this.state.maxValueStorage) {
-            this.setState({
-                    startValueStorage: Number(this.state.startValueStorage) + 1,
-
-
-                },
-                () => {
-                    this.saveState();
-
-
+        this.setState({outputValue: Number(this.state.outputValue) + 1}, () => {
+            if (this.state.outputValue < this.state.maxValue) {
+                this.setState({
+                    incrDisable: false
                 })
-        }
-        if (this.state.startValueStorage === this.state.maxValueStorage) {
-            this.setState({
-                incrDisable: true,
-                outputValue: this.state.startValueStorage
 
-
-            }, () => {
-                this.saveState();
-
-
-            })
-        }
-
-        /*else {
-            this.setState({
-
-                    outputValue: this.state.startValueStorage,
-                    /!*    startValueStorage: this.state.startValue*!/
-                },
-                () => this.saveState())
-        }*/
+            } else {
+                this.setState({incrDisable: true})
+            }
+        })
     };
+
     resetCounter = () => {
         this.setState({
                 incrDisable: false,
-                outputValue: this.state.startValueStorage
+                outputValue: this.state.outputValue
             },
             () => this.saveState());
 
@@ -139,23 +160,74 @@ class Counter extends React.Component {
         return (
             <div className={style.Wrap}>
 
+
+                <Settings
+                    errorButton={this.state.errorButton}
+                    startValue={this.state.startValue}
+                    maxValue={this.state.maxValue}
+                    setValue={this.setValue}
+                    setMaxValue={this.setMaxValue}
+                    setStartValue={this.setStartValue}
+                    errorStart={this.state.errorStart}
+                    errorMax={this.state.errorMax}
+                    setDisable={this.state.setDisable}/>
+
                 <Display
+                    errorButton={this.state.errorButton}
                     outputValue={this.state.outputValue}
                     setValue={this.setValue}
                     incrementCounter={this.incrementCounter}
-                    resetDisable={this.state.resetDisable} incrDisable={this.state.incrDisable}
+                    resetDisable={this.state.resetDisable}
+                    incrDisable={this.state.incrDisable}
                     resetCounter={this.resetCounter}/>
-                <Settings startValue={this.state.startValue}
-                          maxValue={this.state.maxValue}
-                          setValue={this.setValue}
-                          checkValue={this.checkValue}
-                          setMaxValue={this.setMaxValue}
-                          setStartValue={this.setStartValue}
-                          errorStart={this.state.errorStart} errorMax={this.state.errorMax}
-                          setDisable={this.props.setDisable}/>
             </div>
         );
     };
 }
 
 export default Counter;
+
+/*
+    setMaxValue = (valueMax) => {
+      /!*  if (this.state.startValue < valueMax || valueMax > 0) {*!/
+            this.setState({
+                maxValue: valueMax,
+                outputValue: 'input value and press "set"',
+                setDisable: false,
+                errorMax: false,
+                errorButton: false
+            }, () => this.saveState())
+        } else {
+            this.setState({
+                    outputValue: 'Incorrect value',
+                    resetDisable: true,
+                    incrDisable: true,
+                    setDisable: true,
+                    errorMax: true,
+                    errorButton: true
+                }
+            )
+        }
+    };
+
+    setStartValue = (valueStart) => {
+        if (valueStart < this.state.maxValue || valueStart > 0) {
+            this.setState({
+                startValue: valueStart,
+                outputValue: 'input value and press "set"',
+                setDisable: false,
+                errorMax: false,
+                errorButton: false
+            }, () => this.saveState())
+        } else {
+            this.setState({
+                    outputValue: 'Incorrect value',
+                    resetDisable: true,
+                    incrDisable: true,
+                    setDisable: true,
+                    errorMax: true,
+                    errorButton: true
+                }
+            )
+        }
+    };*/

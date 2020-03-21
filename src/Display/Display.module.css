@@ -1,4 +1,8 @@
 .Display {
     display: flex;
-    flex-direction: column;
+    width: 20vh;
+    height: 10%;
+margin-top:250px;
+    margin-right: 300px;
+flex-direction: column;
 }

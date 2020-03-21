@@ -4,6 +4,9 @@ import Button from './../Components/Reusable_components/Button/Button'
 
 
 class Display extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         titleInc: 'inc',
         titleRes: 'res'
@@ -14,8 +17,8 @@ class Display extends React.Component {
             <div className={style.Display}>
 
                 <span> {this.props.outputValue}</span>
-                <Button name={this.state.titleInc} onBtnClick={this.props.incrementCounter} disabled={this.props.incrDisable}/>
-                <Button name={this.state.titleRes} onBtnClick={this.props.resetCounter} disabled={this.props.resetDisable}/>
+                <Button name={this.state.titleInc} onBtnClick={this.props.incrementCounter} disabled={this.props.incrDisable} errorButton={this.props.errorButton}/>
+                <Button name={this.state.titleRes} onBtnClick={this.props.resetCounter} disabled={this.props.resetDisable} errorButton={this.props.errorButton}/>
 
             </div>
         );
