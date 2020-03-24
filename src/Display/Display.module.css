@@ -1,7 +1,7 @@
 .Display {
     display: flex;
-    width: 20vh;
-    height: 10%;
+    width: 20%;
+    height: 10vh;
 margin-top:250px;
     margin-right: 300px;
 flex-direction: column;

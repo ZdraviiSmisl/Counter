@@ -16,7 +16,9 @@ class Counter extends React.Component {
         outputValue: 0,
         errorStart: false,
         errorMax: false,
-        errorButton: false
+        errorButton: false,
+        statusOutput: 'textOutput'
+
         /* Buttons = {"set":{title: 'set',statusButtonSet:true},
         'inc':{ title: 'inc',statusButton:false},
       'res':{ title: 'res',statusButton:false}}*/
@@ -25,7 +27,7 @@ class Counter extends React.Component {
 
 
     componentDidMount() {
-        /*  this.restoreState();*/
+          this.restoreState();
     }
 
 
@@ -34,18 +36,18 @@ class Counter extends React.Component {
         localStorage.setItem('defaultState', stateToString);
     };
 
-    /*restoreState = () => {
+    restoreState = () => {
         let state = {
             resetDisable: true,
-            incrDisable: true,
-            setDisable: true,
-            outputVariable: 0,
-            startValue: 0,
-            maxValue: 0,
-            startValueStorage: 0,
-            maxValueStorage: 0,
-            errorStart: false,
-            errorMax: false
+        incrDisable: true,
+        setDisable: false,
+        startValue: 0,
+        maxValue: 0,
+        outputValue: 0,
+        errorStart: false,
+        errorMax: false,
+        errorButton: false,
+        statusOutput: 'textOutput'
         };
         let stateToString = localStorage.getItem('defaultState');
         if (stateToString !== null) {
@@ -53,10 +55,10 @@ class Counter extends React.Component {
 
         }
         this.setState(state);
-    };*!/*/
+    };
 
-    checkStartValue = () => {
-        if (this.state.startValue === this.state.maxValue || this.state.startValue < 0||this.state.startValue > this.state.maxValue) {
+    /*checkStartValue = () => {
+        if (this.state.startValue === this.state.maxValue || this.state.startValue < 0 || this.state.startValue > this.state.maxValue) {
             this.setState({
                     outputValue: 'Incorrect value',
                     resetDisable: true,
@@ -64,44 +66,50 @@ class Counter extends React.Component {
                     setDisable: true,
                     errorMax: true,
                     errorButton: true,
-                errorStart: true
+                    errorStart: true,
+                    statusOutput: 'error'
+                },() => this.saveState())
 
-                }
-            )
         } else {
             this.setState({
                 outputValue: 'input value and press "set"',
                 errorMax: false,
                 errorStart: false,
                 errorButton: false,
-                setDisable: false
-            })
+                setDisable: false,
+                statusOutput: 'textOutput'
+            },() => this.saveState())
         }
     };
+*/
 
-
-    checkMaxValue = () => {
-        if (this.state.startValue === this.state.maxValue || this.state.maxValue < 0||this.state.startValue > this.state.maxValue) {
+    checkValue = () => {
+        if (this.state.startValue === this.state.maxValue ||
+            this.state.maxValue < 0 ||
+            this.state.startValue < 0||
+            this.state.startValue > this.state.maxValue) {
             this.setState({
                     outputValue: 'Incorrect value',
                     resetDisable: true,
                     incrDisable: true,
                     setDisable: true,
-                errorStart: true,
+                    errorStart: true,
                     errorMax: true,
-                    errorButton: true
-                }
-            )
+                    errorButton: true,
+                statusOutput: 'error'
+
+                },() => this.saveState())
         } else {
             this.setState({
                 outputValue: 'input value and press "set"',
                 errorMax: false,
                 errorStart: false,
                 errorButton: false,
-                setDisable: false
-            })
+                setDisable: false,
+                statusOutput: 'textOutput'
+            },() => this.saveState())
         }
-    }
+    };
 
 
     setMaxValue = (valueMax) => {
@@ -109,16 +117,17 @@ class Counter extends React.Component {
             maxValue: valueMax,
 
 
-        }, () => this.checkMaxValue(this.state.maxValue))
+        }, () => this.checkValue(this.state.maxValue))
     };
 
     setStartValue = (valueStart) => {
-        debugger
         this.setState({
             startValue: valueStart,
             outputValue: 'input value and press "set"',
-            setDisable: false
-        }, () => this.checkStartValue(this.state.startValue))
+            setDisable: false,
+            statusOutput: 'textOutput'
+        }, () => this.checkValue(this.state.startValue)
+        )
     };
 
     setValue = () => {
@@ -126,19 +135,21 @@ class Counter extends React.Component {
             outputValue: this.state.startValue,
             setDisable: true,
             resetDisable: false,
-            incrDisable: false
-        })
+            incrDisable: false,
+            statusOutput: 'textOutput'
+        }, () => this.saveState())
     };
 
     incrementCounter = () => {
         this.setState({outputValue: Number(this.state.outputValue) + 1}, () => {
             if (this.state.outputValue < this.state.maxValue) {
                 this.setState({
-                    incrDisable: false
-                })
+                    incrDisable: false,
+                    statusOutput: 'textOutput'
+                },() => this.saveState())
 
             } else {
-                this.setState({incrDisable: true})
+                this.setState({incrDisable: true, statusOutput: 'max'}, () => this.saveState())
             }
         })
     };
@@ -146,7 +157,8 @@ class Counter extends React.Component {
     resetCounter = () => {
         this.setState({
                 incrDisable: false,
-                outputValue: this.state.outputValue
+                outputValue: this.state.outputValue,
+                statusOutput: 'textOutput'
             },
             () => this.saveState());
 
@@ -179,7 +191,10 @@ class Counter extends React.Component {
                     incrementCounter={this.incrementCounter}
                     resetDisable={this.state.resetDisable}
                     incrDisable={this.state.incrDisable}
-                    resetCounter={this.resetCounter}/>
+                    resetCounter={this.resetCounter}
+                    statusOutput={this.state.statusOutput}
+                />
+
             </div>
         );
     };

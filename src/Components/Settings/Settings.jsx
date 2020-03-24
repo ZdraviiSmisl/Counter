@@ -26,7 +26,7 @@ class Settings extends React.Component {
     };
 
     render = () => {
-        debugger
+debugger
         return (
             <div className={style.Wrap}>
             <span> MaxValue:<input
