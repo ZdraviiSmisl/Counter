@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './Button.module.css'
-import Display from "../../../Display/Display";
 
 class Button extends React.Component {
     constructor(props) {
@@ -9,11 +8,9 @@ class Button extends React.Component {
 
     render() {
         return (
-
-            <button className={this.props.errorButton ? style.error : ''}
+            <button className={this.props.errorButton ? `${style.btn} ${style.error}` : style.btn}
                     onClick={this.props.onBtnClick} disabled={this.props.disabled}>
-                    {this.props.name} </button>
-
+                {this.props.name} </button>
         )
     }
 }

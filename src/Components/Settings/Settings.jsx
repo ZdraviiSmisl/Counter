@@ -1,14 +1,12 @@
 import React from 'react';
 import style from './Settings.module.css';
 import Button from './../Reusable_components/Button/Button'
-import Display from "../../Display/Display";
-
 
 class Settings extends React.Component {
     constructor(props) {
         super(props);
-
     }
+
     state = {
         setTitle: 'set'
 
@@ -16,34 +14,39 @@ class Settings extends React.Component {
 
     onSetMaxValue = (e) => {
         let valueMax = e.currentTarget.value;
-        this.props.setMaxValue(valueMax);
+        this.props.inputMaxValue(valueMax);
 
     };
     onSetStartValue = (e) => {
         let valueStart = e.currentTarget.value;
-        this.props.setStartValue(valueStart);
+        this.props.inputStartValue(valueStart);
 
     };
 
-    render = () => {
-debugger
+    render() {
         return (
-            <div className={style.Wrap}>
-            <span> MaxValue:<input
-                className={this.props.errorMax ? style.error : ''}
-                value={this.props.maxValue}
-                onChange={this.onSetMaxValue}
-                type='number'
-            /></span>
-                <span>StartValue:<input
-                    className={this.props.errorStart ? style.error : ''}
-                    value={this.props.startValue}
-                    onChange={this.onSetStartValue}
-                    type='number'
-                /></span>
-
-                <Button name={this.state.setTitle} onBtnClick={this.props.setValue} disabled={this.props.setDisable}
-                        errorButton={this.props.errorButton}/>
+            <div className={style.wrap}>
+                <div className={style.wrap_input}>
+                    <label> MaxValue:<input
+                        className={this.props.errorMax ? style.error : ''}
+                        value={this.props.maxValue}
+                        onChange={this.onSetMaxValue}
+                        type='number'
+                        pattern={'^[0-9]+$'}
+                    />
+                    </label>
+                    <label>StartValue:<input
+                        className={this.props.errorStart ? style.error : ''}
+                        value={this.props.startValue}
+                        onChange={this.onSetStartValue}
+                        type='number'
+                        pattern={'^[0-9]+$'}
+                    /></label>
+                </div>
+                <div className={style.wrap_button}>
+                    <Button name={this.state.setTitle} onBtnClick={this.props.setValue} disabled={this.props.setDisable}
+                            errorButton={this.props.errorButton}/>
+                </div>
 
             </div>
         );

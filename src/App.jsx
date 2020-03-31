@@ -7,12 +7,8 @@ class App extends React.Component {
     render() {
         return (
             <div className={style.Wrap}>
-
                 <Counter/>
-
-
             </div>
-
         )
     }
 

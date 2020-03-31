@@ -1,20 +1,11 @@
-.OutputScreen {
-
-}
-
-.textOutput {
-color:blue;
-}
-
-
 .max {
-color:red;
+    color: red;
 }
 
 .error {
-color:red;
+    color: red;
 }
 
 .outputPermissible {
-    color:blue;
+    color: white;
 }

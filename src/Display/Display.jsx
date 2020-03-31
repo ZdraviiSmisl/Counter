@@ -10,19 +10,23 @@ class Display extends React.Component {
     }
 
     state = {
-
         titleInc: 'inc',
         titleRes: 'res'
     };
     render = () => {
 
         return (
-            <div className={style.Display}>
-                <Status statusOutput={this.props.statusOutput} outputValue={this.props.outputValue}/>
-                <Button name={this.state.titleInc} onBtnClick={this.props.incrementCounter}
-                        disabled={this.props.incrDisable} errorButton={this.props.errorButton}/>
-                <Button name={this.state.titleRes} onBtnClick={this.props.resetCounter}
-                        disabled={this.props.resetDisable} errorButton={this.props.errorButton}/>
+            <div className={style.display}>
+                <div className={style.wrap_input}>
+                    <Status statusOutput={this.props.statusOutput} outputValue={this.props.outputValue}/>
+                </div>
+                <div className={style.wrap_button}>
+                    <Button name={this.state.titleInc}
+                            onBtnClick={this.props.incrementCounter}
+                            disabled={this.props.incrDisable} errorButton={this.props.errorButton}/>
+                    <Button name={this.state.titleRes} onBtnClick={this.props.resetCounter}
+                            disabled={this.props.resetDisable} errorButton={this.props.errorButton}/>
+                </div>
 
             </div>
         );

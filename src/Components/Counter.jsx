@@ -111,21 +111,21 @@ class Counter extends React.Component {
         }
     };
 
-
-    setMaxValue = (valueMax) => {
+    inputMaxValue = (valueMax) => {
         this.setState({
             maxValue: valueMax,
-
+            incrDisable: true
 
         }, () => this.checkValue(this.state.maxValue))
     };
 
-    setStartValue = (valueStart) => {
+    inputStartValue = (valueStart) => {
         this.setState({
             startValue: valueStart,
             outputValue: 'input value and press "set"',
             setDisable: false,
-            statusOutput: 'textOutput'
+            statusOutput: 'textOutput',
+                incrDisable: true
         }, () => this.checkValue(this.state.startValue)
         )
     };
@@ -157,33 +157,25 @@ class Counter extends React.Component {
     resetCounter = () => {
         this.setState({
                 incrDisable: false,
-                outputValue: this.state.outputValue,
+                outputValue: this.state.startValue,
                 statusOutput: 'textOutput'
             },
             () => this.saveState());
-
-
     };
 
-
     render() {
-
-
         return (
             <div className={style.Wrap}>
-
-
                 <Settings
                     errorButton={this.state.errorButton}
                     startValue={this.state.startValue}
                     maxValue={this.state.maxValue}
                     setValue={this.setValue}
-                    setMaxValue={this.setMaxValue}
-                    setStartValue={this.setStartValue}
+                    inputMaxValue={this.inputMaxValue}
+                    inputStartValue={this.inputStartValue}
                     errorStart={this.state.errorStart}
                     errorMax={this.state.errorMax}
                     setDisable={this.state.setDisable}/>
-
                 <Display
                     errorButton={this.state.errorButton}
                     outputValue={this.state.outputValue}
@@ -194,7 +186,6 @@ class Counter extends React.Component {
                     resetCounter={this.resetCounter}
                     statusOutput={this.state.statusOutput}
                 />
-
             </div>
         );
     };
